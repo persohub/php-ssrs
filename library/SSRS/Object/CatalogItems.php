@@ -16,8 +16,15 @@ class CatalogItems extends ArrayIterator {
     }
 
     public function setCatalogItems(\stdClass $items) {
-        foreach ($items->CatalogItem AS $item) {
-            $this->addCatalogItem(new CatalogItem($item));
+        if(isset($items->CatalogItem) && !is_array($items->CatalogItem)){
+            $tmp = $items->CatalogItem;
+            unset($items->CatalogItem);
+            $items->CatalogItem[0] = $tmp;
+        }
+        if(isset($items->CatalogItem) && $items->CatalogItem) {
+            foreach ($items->CatalogItem AS $item) {
+                $this->addCatalogItem(new CatalogItem($item));
+            }
         }
     }
 
