@@ -7,9 +7,10 @@ class ServerException extends \Exception {
     public $faultcode;
     public $faultstring;
     public $faultactor;
+    public $detail;
 
     static function fromResponse($string) {
-        $xml = new SimpleXMLElement($string);
+        $xml = new \SimpleXMLElement($string);
         $ns = $xml->getNamespaces(true);
 
         $soap = $xml->children($ns['soap']);
@@ -21,6 +22,7 @@ class ServerException extends \Exception {
             $exception->faultcode = (string) $fault->faultcode;
             $exception->faultstring = (string) $fault->faultstring;
             $exception->faultactor = (string) $fault->faultactor;
+            $exception->detail = $fault->detail;
         } else {
             throw new Exception('Invalid server response');
         }

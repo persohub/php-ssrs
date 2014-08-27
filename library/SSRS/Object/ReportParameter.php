@@ -44,15 +44,26 @@ class ReportParameter extends ObjectAbstract {
             $validValues = $validValues->ValidValue;
         }
 
+//        dd($validValues);
+
         $data = array();
-        foreach ($validValues AS $value) {
-            if (is_object($value)) {
-                $data[] = new ValidValue((string) $value->Label, (string) $value->Value);
-            } elseif (is_array($value)) {
-                var_dump($value);
-                $data[] = new ValidValue((string) $value['Label'], (string) $value['Value']);
-            } else {
-                $data[] = new ValidValue((string) $value, (string) $value);
+        foreach ($validValues AS $values) {
+//            dd($values);
+            if(is_object($values)){
+                $data[] = new ValidValue((string) $values->Label, (string) $values->Value);
+            } elseif(is_array($values)) {
+            foreach($values as $value){
+                if (is_object($value)) {
+                    $data[] = new ValidValue((string) $value->Label, (string) $value->Value);
+                } elseif (is_array($value)) {
+                    //var_dump($value);
+    //                $data[] = $this->setValidValues($value);
+//                    dd($value);
+                    $data[] = new ValidValue((string) $value['Label'], (string) $value['Value']);
+                } else {
+                    $data[] = new ValidValue((string) $value, (string) $value);
+                }
+            }
             }
         }
 

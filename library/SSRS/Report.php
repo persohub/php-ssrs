@@ -70,7 +70,7 @@ class Report {
      *
      * @param SoapClient $client 
      */
-    public function setSoapExecution(SoapClient $client) {
+    public function setSoapExecution(\SoapClient $client) {
         $this->_soapExecution = $client;
         return $this;
     }
@@ -81,7 +81,7 @@ class Report {
      *
      * @param SoapClient $client
      */
-    public function setSoapService(SoapClient $client) {
+    public function setSoapService(\SoapClient $client) {
         $this->_soapService = $client;
         return $this;
     }
@@ -202,7 +202,7 @@ class Report {
         );
 
         $result = $this->getSoapService()->ListChildren($params);
-        return new CatalogItems($result);
+        return new Object\CatalogItems($result);
     }
 
     /**
@@ -241,7 +241,7 @@ class Report {
      * @return \SSRS\Object\Extensions
      */
     public function listRenderingExtensions() {
-        return new Extensions($this->getSoapExecution()->ListRenderingExtensions());
+        return new Object\Extensions($this->getSoapExecution()->ListRenderingExtensions());
     }
 
     /**
@@ -301,7 +301,7 @@ class Report {
      * @param string $id
      * @return SSRS\Object\ExecutionInfo
      */
-    public function setExecutionParameters(ExecutionParameters $parameters, $parameterLanguage = 'en-us') {
+    public function setExecutionParameters(\ExecutionParameters $parameters, $parameterLanguage = 'en-us') {
         $this->checkSessionId();
 
         $options = array(
@@ -329,6 +329,8 @@ class Report {
             'DeviceInfo' => $this->renderDeviceInfo($deviceInfo),
             'PaginationMode' => $PaginationMode
         );
+
+//        dd($renderParams);
 
         $result = $this->getSoapExecution()->Render2($renderParams);
         return new ReportOutput($result);

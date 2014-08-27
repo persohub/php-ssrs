@@ -10,6 +10,10 @@ class Properties {
         $this->addProperties($properties);
     }
 
+    public function __isset($name) {
+        return isset($this->_properties[$name]);
+    }
+
     public function __get($name) {
         return $this->getProperty($name);
     }

@@ -7,7 +7,7 @@ class ExecutionParameters extends ArrayIterator {
     public $iteratorKey = 'Parameters';
 
     public function __construct(array $parameters = array()) {
-        parent::__construct(null);
+        parent::__construct([]);
         $this->setParameters($parameters);
     }
 
@@ -19,10 +19,10 @@ class ExecutionParameters extends ArrayIterator {
         $this->data['Parameters'] = array();
 
         foreach ($parameters AS $key => $parameter) {
-            if (($parameter instanceof ReportParameter) === false) {
+            if (($parameter instanceof Object\ReportParameter) === false) {
                 $values = (array) $parameter;
                 foreach ($values AS $value) {
-                    $this->data['Parameters'][] = new ReportParameter($key, $value);
+                    $this->data['Parameters'][] = new Object\ReportParameter($key, $value);
                 }
             } else {
                 $this->data['Parameters'][] = $parameter;
